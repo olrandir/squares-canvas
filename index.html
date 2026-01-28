@@ -13,10 +13,27 @@
     canvas {
       display: block;
     }
+    .info-text {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      color: gray;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      background-color: white;
+      padding: 2px 10px;
+      box-shadow: 7px 7px rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
   <canvas id="myCanvas"></canvas>
+  <div class="info-text">
+    <p>
+      Squares Canvas - Generated with colors from Colormind API
+    </p>
+  </div>
   <script src="getColorApi.js"></script>
   <script src="getRandomInteger.js"></script>
   <script>
