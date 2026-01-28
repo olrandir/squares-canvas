@@ -1,23 +1,25 @@
-async function getColorApi(callback) {
+async function getColorApi() {
   const url = "http://colormind.io/api/";
   const data = {
-    model : "default",
-  }
+    model: "default",
+  };
 
-  const http = new XMLHttpRequest();
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
 
-  http.onreadystatechange = function() {
-    let palette = []
-    if (http.readyState == 4 && http.status == 200) {
-      palette = JSON.parse(http.responseText).result;
-    } else if (http.readyState == 4) {
-      console.error("Error fetching color palette: " + http.status + " " + http.statusText);
+    if (!response.ok) {
+      throw new Error(
+        `Error fetching color palette: ${response.status} ${response.statusText}`
+      );
     }
-    if (callback && palette.length > 0) {
-      callback(palette);
-    }
-  }
 
-  http.open("POST", url, true);
-  http.send(JSON.stringify(data));
-};
+    const result = await response.json();
+    return result.result;
+  } catch (error) {
+    console.error("Error in getColorApi:", error);
+    throw error;
+  }
+}
