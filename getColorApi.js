@@ -13,7 +13,7 @@ async function getColorApi(callback) {
     } else if (http.readyState == 4) {
       console.error("Error fetching color palette: " + http.status + " " + http.statusText);
     }
-    if (callback) {
+    if (callback && palette.length > 0) {
       callback(palette);
     }
   }
