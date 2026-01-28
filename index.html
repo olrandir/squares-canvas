@@ -13,10 +13,7 @@
     canvas {
       display: block;
     }
-    .info-text {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
+    .box {
       color: gray;
       font-family: Arial, sans-serif;
       font-size: 12px;
@@ -25,11 +22,46 @@
       box-shadow: 7px 7px rgba(0, 0, 0, 0.3);
       border-radius: 5px;
     }
+    .info-text {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+    }
+    .settings {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+    }
+    .settings form {
+      display: flex;
+      flex-direction: column; 
+      gap: 5px;
+      margin: 7px 0;
+    }
+    .settings input {
+      width: 120px;
+      padding: 5px;
+      font-size: 12px;
+    }
+    .settings button {
+      padding: 5px;
+      font-size: 12px;
+      border-radius: 14px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <canvas id="myCanvas"></canvas>
-  <div class="info-text">
+  <div class="box settings">
+    <form id="settingsForm">
+      <input type="number" id="squaresPerRowInput" name="squaresPerRow" placeholder="Squares per row" />
+      <input type="number" id="widthInput" name="width" placeholder="Canvas width" />
+      <input type="number" id="heightInput" name="height" placeholder="Canvas height" />
+      <button type="button" id="updateButton">Update</button>
+    </form>
+  </div>
+  <div class="box info-text">
     <p>
       Squares Canvas - Generated with colors from Colormind API
     </p>
@@ -37,13 +69,30 @@
   <script src="getColorApi.js"></script>
   <script src="getRandomInteger.js"></script>
   <script>
-    const squaresPerRow = 30;
+    let squaresPerRow = 30;
     // Get the canvas element
     const canvas = document.getElementById('myCanvas');
     const ctx = canvas.getContext('2d');
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+
+    document.getElementById('squaresPerRowInput').value = squaresPerRow;
+    document.getElementById('widthInput').value = canvas.width;
+    document.getElementById('heightInput').value = canvas.height;
+
+    document.getElementById('updateButton').addEventListener('click', () => {
+      const widthInput = document.getElementById('widthInput').value;
+      const heightInput = document.getElementById('heightInput').value;
+      const squaresPerRowInput = document.getElementById('squaresPerRowInput').value;
+
+      squaresPerRow =  parseInt(squaresPerRowInput) || squaresPerRow;
+      canvas.width = parseInt(widthInput) || canvas.width;
+      canvas.height = parseInt(heightInput) || canvas.height;
+
+      console.log("Updating canvas with width:", widthInput, "height:", heightInput, "squaresPerRow:", squaresPerRowInput); 
+      getColorApi(drawSquares);
+    });
 
     // Draw a square in the center of the canvas
     function drawSquares(palette) {
@@ -78,7 +127,7 @@
     }
 
     // Initial canvas setup
-    getColorApi(drawSquares)
+    getColorApi(drawSquares);
   </script>
 </body>
 </html>
