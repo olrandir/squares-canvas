@@ -68,6 +68,7 @@
   </div>
   <script src="getColorApi.js"></script>
   <script src="getRandomInteger.js"></script>
+  <script src="colorPalettes.js"></script>
   <script async>
     let squaresPerRow = 30;
     let palette = null;
@@ -128,12 +129,11 @@
 
     document.onreadystatechange = async function () {
       if (document.readyState === "complete") {
-        palette = await getColorApi();
+        // palette = await getColorApi();
+        palette = colorPalettes[getRandomInteger(0, colorPalettes.length - 1)];
         drawSquares(palette);
       }
     };
-    // Initial canvas setup
-    getColorApi(drawSquares);
   </script>
 </body>
 </html>
