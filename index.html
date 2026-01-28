@@ -47,7 +47,7 @@
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
       let [x, y] = [0, 0];
-
+      console.log(palette);
       // Draw squares
       while (y < canvasHeight) {
         const color = palette[getRandomInteger(0, palette.length-1)];
@@ -61,7 +61,8 @@
       }
     }
 
-    getColorApi(drawSquares);
+    // Initial canvas setup
+    getColorApi(drawSquares)
   </script>
 </body>
 </html>
