@@ -38,16 +38,28 @@
       gap: 5px;
       margin: 7px 0;
     }
-    .settings input {
-      width: 120px;
+    .settings fieldset {
       padding: 5px;
       font-size: 12px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      border: none;
+    }
+    .settings input {
+      width: 30%;
+      padding: 3px;
+      font-size: 12px;
+      border-radius: 5px;
+      border: 1px solid gray;
     }
     .settings button {
       padding: 5px;
       font-size: 12px;
       border-radius: 14px;
       cursor: pointer;
+      width: 45%;
     }
   </style>
 </head>
@@ -55,10 +67,22 @@
   <canvas id="myCanvas"></canvas>
   <div class="box settings">
     <form id="settingsForm">
-      <input type="number" id="squaresPerRowInput" name="squaresPerRow" placeholder="Squares per row" />
-      <input type="number" id="widthInput" name="width" placeholder="Canvas width" />
-      <input type="number" id="heightInput" name="height" placeholder="Canvas height" />
-      <button type="button" id="updateButton">Update</button>
+      <fieldset>
+        <label for="number">Squares per row</label>
+        <input type="number" id="squaresPerRowInput" name="squaresPerRow" placeholder="Squares per row" />
+      </fieldset>
+      <fieldset>
+        <label for="widthInput">Canvas width (px)</label>
+        <input type="number" id="widthInput" name="width" placeholder="Canvas width" />
+      </fieldset>
+      <fieldset>
+        <label for="heightInput">Canvas height (px)</label>
+        <input type="number" id="heightInput" name="height" placeholder="Canvas height" />
+      </fieldset>
+      <fieldset>
+        <button type="button" id="download">💾 Download</button>
+        <button type="button" id="updateButton">🔃 Update</button>      
+      </fieldset>
     </form>
   </div>
   <div class="box info-text">
@@ -93,6 +117,19 @@
       canvas.height = parseInt(heightInput) || canvas.height;
 
       drawSquares(palette)
+    });
+
+    // Download current canvas as PNG
+    document.getElementById('download').addEventListener('click', () => {
+       // Generate PNG data URL and trigger download
+      const link = document.createElement('a');
+      link.download = `squares-canvas-${canvas.width}x${canvas.height}-${Date.now()}.png`;
+      link.href = canvas.toDataURL('image/png');
+
+      // Firefox requires the link to be in the DOM
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     });
 
     // Draw square tiles on the canvas
